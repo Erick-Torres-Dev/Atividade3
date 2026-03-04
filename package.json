@@ -1,0 +1,15 @@
+{
+  "name": "atividade3",
+  "version": "1.0.0",
+  "description": "Desafio Prático - A Esteira Inquebrável",
+  "main": "index.js",
+  "scripts": {
+    "lint:html": "htmlhint index.html",
+    "lint:css": "stylelint \"**/*.css\""
+  },
+  "devDependencies": {
+    "htmlhint": "^1.1.4",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0"
+  }
+}

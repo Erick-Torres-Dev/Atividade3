@@ -1,0 +1,49 @@
+name: A Esteira Inquebrável
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validar-html:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install htmlhint
+        run: npm install -g htmlhint
+      - name: Validate HTML
+        run: htmlhint index.html
+
+  validar-css:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install stylelint
+        run: npm install -g stylelint stylelint-config-standard
+      - name: Validate CSS
+        run: |
+          echo '{ "extends": "stylelint-config-standard" }' > .stylelintrc.json
+          stylelint index.html style.css
+
+  preparar-entrega:
+    runs-on: ubuntu-latest
+    needs: [validar-html, validar-css]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create dist directory
+        run: |
+          mkdir dist
+          cp index.html style.css dist/
+          echo "Entrega preparada com sucesso!"
+      - name: List dist content
+        run: ls -R dist/
